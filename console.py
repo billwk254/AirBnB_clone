@@ -3,9 +3,11 @@
 Module for the command interpreter.
 """
 
-import cmd
 from models import storage
 from models.base_model import BaseModel
+from cmd import Cmd
+
+school = storage.models
 
 
 class HBNBCommand(cmd.Cmd):
@@ -41,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not n:
             print("** class name missing **")
-        elif args[0] not in classes:
+        elif args[0] not in school:
             print("** class doesn't exist **")
         elif n == 1:
             temp = eval(args[0])()
