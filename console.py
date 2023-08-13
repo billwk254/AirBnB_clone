@@ -3,11 +3,12 @@
 Module for the command interpreter.
 """
 
+
 from models import storage
 from models.base_model import BaseModel
 from cmd import Cmd
 
-school = storage.models
+model_classes = storage.models
 
 
 class HBNBCommand(cmd.Cmd):
@@ -36,36 +37,32 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_create(self, line):
-        """
-        Create a new instance of BaseModel, saves it, and prints the id.
-        """
-         args, n = parse(args)
+        """Creates a new instance of a model"""
+        parsed_args, arg_count = parse(args)
 
-        if not n:
+        if not arg_count:
             print("** class name missing **")
-        elif args[0] not in school:
+        elif parsed_args[0] not in custom_classes:
             print("** class doesn't exist **")
-        elif n == 1:
-            temp = eval(args[0])()
-            print(temp.id)
-            temp.save()
+        elif arg_count == 1:
+            new_instance = eval(parsed_args[0])()
+            print(new_instance.id)
+            new_instance.save()
         else:
             print("** Too many arguments for create **")
 
     def do_show(self, line):
-        """
-        Prints the string representation of an instance.
-        """
-        args, n = parse(arg)
+        """Shows an instance based on its class name and id"""
+        parsed_args, arg_count = parse(arg)
 
-        if not n:
+        if not arg_count:
             print("** class name missing **")
-        elif n == 1:
+        elif arg_count == 1:
             print("** instance id missing **")
-        elif n == 2:
+        elif arg_count == 2:
             try:
-                inst = storage.find_by_id(*args)
-                print(inst)
+                instance = storage.find_by_id(*parsed_args)
+                print(instance)
             except ModelNotFoundError:
                 print("** class doesn't exist **")
             except InstanceNotFoundError:
@@ -74,18 +71,16 @@ class HBNBCommand(cmd.Cmd):
             print("** Too many arguments for show **")
 
     def do_destroy(self, line):
-        """
-        Deletes an instance based on the class name and id.
-        """
-        args, n = parse(arg)
+        """Destroys an instance based on its class name and id"""
+        parsed_args, arg_count = parse(arg)
 
-        if not n:
+        if not arg_count:
             print("** class name missing **")
-        elif n == 1:
+        elif arg_count == 1:
             print("** instance id missing **")
-        elif n == 2:
+        elif arg_count == 2:
             try:
-                storage.delete_by_id(*args)
+                storage.delete_by_id(*parsed_args)
             except ModelNotFoundError:
                 print("** class doesn't exist **")
             except InstanceNotFoundError:
@@ -94,35 +89,31 @@ class HBNBCommand(cmd.Cmd):
             print("** Too many arguments for destroy **")
 
     def do_all(self, line):
-        """
-        Prints all string representation of all instances.
-        """
-        args, n = parse(args)
+        """Prints all instances of a specific class"""
+        parsed_args, arg_count = parse(args)
 
-        if n < 2:
+        if arg_count < 2:
             try:
-                print(storage.find_all(*args))
+                print(storage.find_all(*parsed_args))
             except ModelNotFoundError:
                 print("** class doesn't exist **")
         else:
             print("** Too many arguments for all **")
 
     def do_update(self, line):
-        """
-        Updates an instance based on the class name and id.
-        """
-         args, n = parse(arg)
-        if not n:
+        """Updates an instance based on its class name, id, attribute name, and value"""
+        parsed_args, arg_count = parse(arg)
+        if not arg_count:
             print("** class name missing **")
-        elif n == 1:
+        elif arg_count == 1:
             print("** instance id missing **")
-        elif n == 2:
+        elif arg_count == 2:
             print("** attribute name missing **")
-        elif n == 3:
+        elif arg_count == 3:
             print("** value missing **")
         else:
             try:
-                storage.update_one(*args[0:4])
+                storage.update_one(*parsed_args[0:4])
             except ModelNotFoundError:
                 print("** class doesn't exist **")
             except InstanceNotFoundError:
