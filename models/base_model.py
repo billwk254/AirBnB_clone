@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 class BaseModel:
-     """
+    """
     Defines the BaseModel class.
     Attributes:
         id (str): The ID of the instance.
