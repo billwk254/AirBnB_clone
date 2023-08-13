@@ -3,8 +3,17 @@ import uuid
 from datetime import datetime
 
 
+"""Defines the BaseModel class."""
+
+
 class BaseModel:
-    """Defines the BaseModel class."""
+     """
+    Defines the BaseModel class.
+    Attributes:
+        id (str): The ID of the instance.
+        created_at (datetime): The creation date and time.
+        updated_at (datetime): The last update date and time.
+    """    
     def __init__(self):
         """Initialize BaseModel attributes."""
         self.id = str(uuid.uuid4())
