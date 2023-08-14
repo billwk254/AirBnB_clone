@@ -5,6 +5,7 @@ This module defines the FileStorage class
 
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -50,3 +51,28 @@ class FileStorage:
                     self.__objects[key] = class_(**value)
         except FileNotFoundError:
             pass
+
+     def _serialize(self, obj):
+        """
+        Serialize an object to a dictionary
+        """
+        obj_dict = obj.to_dict()
+        # Add class name to the dictionary
+        obj_dict['__class__'] = type(obj).__name__
+        return obj_dict
+
+    def _deserialize(self, obj_dict):
+        """
+        Deserialize a dictionary to an object
+        """
+        if '__class__' in obj_dict:
+            class_name = obj_dict.pop('__class__')
+            if class_name == 'BaseModel':
+                return BaseModel(**obj_dict)
+            elif class_name == 'User':
+                return User(**obj_dict)
+            else:
+                raise ValueError("Unknown class: {}".format(class_name))
+        else:
+            raise ValueError("Invalid dictionary format")
+
