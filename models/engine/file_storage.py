@@ -15,53 +15,34 @@ from models.review import Review
 
 
 class FileStorage:
-    """
-    Serializes instances to a JSON file and deserializes JSON file.
-    """
     __file_path = "file.json"
     __objects = {}
 
-    def all(self, cls=None):
-        """Returns a dictionary of all objects"""
-        if cls is None:
-            return self.__objects
-        else:
-            cls_name = cls.__name__
-            cls_objects = {}
-            for obj_id, obj in self.__objects.items():
-                if obj.__class__.__name__ == cls_name:
-                    cls_objects[obj_id] = obj
-            return cls_objects
+    def all(self):
+        return self.__objects
 
     def new(self, obj):
-        """Adds a new object to the dictionary"""
-        key = obj.__class__.__name__ + "." + obj.id
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
-        """Serializes __objects to the JSON file"""
-        serialized_objects = {}
-        for key, obj in self.__objects.items():
-            serialized_objects[key] = obj.to_dict()
-        with open(self.__file_path, 'w') as file:
-            json.dump(serialized_objects, file)
+        new_dict = {}
+        for key, value in self.__objects.items():
+            new_dict[key] = value.to_dict()
+        with open(self.__file_path, 'w', encoding='utf-8') as file:
+            json.dump(new_dict, file)
 
     def reload(self):
         try:
-            with open(self.__file_path, 'r') as file:
-                data = json.load(file)
-                for class_key, class_data in data.items():
-                    class_name = class_key.split('.')[0]
-                    class_dict = {"BaseModel": BaseModel, "User": User,
-                                  "State": State, "City": City,
-                                  "Amenity": Amenity, "Place": Place,
-                                  "Review": Review}
-                    if class_name in class_dict:
-                        new_instance = class_dict[class_name](**class_data)
-                        self.__objects[class_key] = new_instance
+            with open(self.__file_path, 'r', encoding='utf-8') as file:
+                obj_dict = json.load(file)
+                for key, value in obj_dict.items():
+                    class_name = value['__class__']
+                    del value['__class__']
+                    self.__objects[key] = eval(class_name)(**value)
         except FileNotFoundError:
             pass
-            
+
     def _serialize(self, obj):
         """
         Serialize an object to a dictionary

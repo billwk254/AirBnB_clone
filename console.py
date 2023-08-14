@@ -34,21 +34,16 @@ class HBNBCommand(cmd.Cmd):
         return True
     
     def do_create(self, arg):
-        """Create a new instance of a class"""
-        args = arg.split()
-        if not args:
+        """Create a new instance of the specified class, save it, and print the id"""
+        if not arg:
             print("** class name missing **")
             return
-        class_name = args[0]
-        class_dict = {"BaseModel": BaseModel, "User": User,
-                      "State": State, "City": City,
-                      "Amenity": Amenity, "Place": Place,
-                      "Review": Review}
-        if class_name in class_dict:
-            new_obj = class_dict[class_name]()
+        try:
+            class_name = arg
+            new_obj = eval(class_name)()
             new_obj.save()
             print(new_obj.id)
-        else:
+        except NameError:
             print("** class doesn't exist **")
     
     def do_show(self, arg):
