@@ -52,7 +52,7 @@ class FileStorage:
         except FileNotFoundError:
             pass
 
-     def _serialize(self, obj):
+    def _serialize(self, obj):
         """
         Serialize an object to a dictionary
         """
