@@ -1,16 +1,15 @@
 #!/usr/bin/python3
 """
-Defines the FileStorage class.
+This module defines the FileStorage class
 """
 
-
 import json
-import models
+from models.base_model import BaseModel
 
 
 class FileStorage:
     """
-    Serializes instances to a JSON file and deserializes JSON file to instances.
+    Serializes instances to a JSON file and deserializes JSON file.
     """
     __file_path = "file.json"
     __objects = {}
