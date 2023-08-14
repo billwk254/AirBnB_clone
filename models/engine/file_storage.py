@@ -6,6 +6,12 @@ This module defines the FileStorage class
 import json
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
 
 
 class FileStorage:
@@ -41,17 +47,21 @@ class FileStorage:
             json.dump(serialized_objects, file)
 
     def reload(self):
-        """Deserializes the JSON file to __objects."""
         try:
             with open(self.__file_path, 'r') as file:
                 data = json.load(file)
-                for key, value in data.items():
-                    class_name, obj_id = key.split(".")
-                    class_ = eval(class_name)
-                    self.__objects[key] = class_(**value)
+                for class_key, class_data in data.items():
+                    class_name = class_key.split('.')[0]
+                    class_dict = {"BaseModel": BaseModel, "User": User,
+                                  "State": State, "City": City,
+                                  "Amenity": Amenity, "Place": Place,
+                                  "Review": Review}
+                    if class_name in class_dict:
+                        new_instance = class_dict[class_name](**class_data)
+                        self.__objects[class_key] = new_instance
         except FileNotFoundError:
             pass
-
+            
     def _serialize(self, obj):
         """
         Serialize an object to a dictionary

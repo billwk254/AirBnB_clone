@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-
 """
 Module for the command interpreter.
 """
@@ -9,6 +8,11 @@ Module for the command interpreter.
 import cmd
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models import storage
 
 class HBNBCommand(cmd.Cmd):
@@ -30,15 +34,21 @@ class HBNBCommand(cmd.Cmd):
         return True
     
     def do_create(self, arg):
-        """Create a new instance of BaseModel, saves it (to the JSON file), and prints the id"""
-        if not arg:
+        """Create a new instance of a class"""
+        args = arg.split()
+        if not args:
             print("** class name missing **")
             return
-        try:
-            new_obj = eval(arg)()
+        class_name = args[0]
+        class_dict = {"BaseModel": BaseModel, "User": User,
+                      "State": State, "City": City,
+                      "Amenity": Amenity, "Place": Place,
+                      "Review": Review}
+        if class_name in class_dict:
+            new_obj = class_dict[class_name]()
             new_obj.save()
             print(new_obj.id)
-        except NameError:
+        else:
             print("** class doesn't exist **")
     
     def do_show(self, arg):
