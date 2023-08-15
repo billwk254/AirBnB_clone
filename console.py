@@ -235,11 +235,11 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
 
     def do_update(self, arg):
-        """Updates an instance based on the class name and id"""
-        args = arg.split()
-        if not args:
+        """Updates an instance based on the class name and id with new attributes"""
+        if not arg:
             print("** class name missing **")
             return
+        args = arg.split()
         class_name = args[0]
         if class_name not in globals():
             print("** class doesn't exist **")
@@ -261,8 +261,13 @@ class HBNBCommand(cmd.Cmd):
             return
         attr_name = args[2]
         attr_value = args[3]
-        setattr(objs[obj_key], attr_name, attr_value)
-        objs[obj_key].save()
+        if hasattr(objs[obj_key], attr_name):
+            attr_value = type(getattr(objs[obj_key], attr_name))(attr_value)
+            setattr(objs[obj_key], attr_name, attr_value)
+            objs[obj_key].save()
+        else:
+            setattr(objs[obj_key], attr_name, attr_value)
+            objs[obj_key].save()
 
     def do_update_dict(self, arg):
         """Updates an instance based on the class name and id using a dictionary"""
