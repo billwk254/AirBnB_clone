@@ -1,0 +1,21 @@
+/* styles/3-header.css */
+header {
+    background-color: #FFFFFF;
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid #CCCCCC;
+    display: flex;
+    align-items: center;
+    padding-left: 20px; /* 20px space at the left */
+}
+
+.logo {
+    height: 100%;
+    margin: 0;
+}
+
+/* Add your logo image here */
+.logo {
+    background: url('../images/logo.png') no-repeat;
+    background-size: contain;
+}
