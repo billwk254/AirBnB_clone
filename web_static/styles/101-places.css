@@ -1,0 +1,119 @@
+.places {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.place {
+    width: calc(33.33% - 40px); /* Adjust the width as needed */
+    margin: 20px;
+    padding: 20px;
+    border: #FF5A5F solid 1px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.place h2 {
+    font-size: 30px;
+    text-align: center;
+}
+
+.price_by_night {
+    color: #FF5A5F;
+    border: #FF5A5F solid 4px;
+    border-radius: 50%;
+    text-align: center;
+    min-width: 60px;
+    width: 80px;
+    height: 80px;
+    font-size: 30px;
+    line-height: 70px;
+    margin-bottom: 10px;
+    margin: 0 auto; /* Center the price */
+}
+
+.information {
+    border-bottom: #DDDDDD solid 1px;
+    border-top: #DDDDDD solid 1px;
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 16px;
+}
+
+.max_guest, .number_rooms, .number_bathrooms {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.icon_guest, .icon_bed, .icon_bath {
+    background-size: contain;
+    width: 50px;
+    height: 50px;
+}
+
+.user {
+    padding: 10px 0;
+}
+
+.amenities, .reviews {
+    margin-top: 20px;
+}
+
+.amenities h2, .reviews h2 {
+    font-size: 16px;
+    border-bottom: #DDDDDD solid 1px;
+    text-align: left;
+    padding-bottom: 10px;
+}
+
+.amenities ul, .reviews ul {
+    list-style-type: none;
+    padding-top: 20px;
+}
+
+.amenities li, .reviews li {
+    display: flex;
+    text-align: justify;
+}
+
+.amenities li p {
+    padding: 10px 0;
+}
+.icon_guest {
+    background-image: url("../images/icon_group.png");
+    width: 50px;
+    height: 50px;
+}
+
+.icon_bed {
+    background-image: url("../images/icon_bed.png");
+    width: 50px;
+    height: 50px;
+}
+
+.icon_bath {
+    background-image: url("../images/icon_bath.png");
+    width: 50px;
+    height: 50px;
+}
+.tv_icon {
+    background-image: url("../images/icon_tv.png");
+    width: 50px;
+    height: 50px;
+}
+
+.wifi_icon {
+    background-image: url("../images/icon_wifi.png");
+    width: 50px;
+    height: 50px;
+}
+
+.pets_icon {
+    background-image: url("../images/icon_pets.png");
+    width: 50px;
+    height: 50px;
+}
